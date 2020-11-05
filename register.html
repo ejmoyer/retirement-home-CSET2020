@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <script defer src="registerPatientFamilyInfo.js"></script>
+  </head>
+  <body>
+    <form action="register.php" method="post">
+      <label for="role">Role</label>
+      <select name="role">
+        <option value="">Select a Role</option>
+        <option value="patient">Patient</option>
+        <option value="doctor">Doctor</option>
+        <option value="caregiver">Caregiver</option>
+        <option value="supervisor">Supervisor</option>
+        <option value="family_member">Family Member</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <label for="first_name">First Name</label>
+      <input type="text" name="first_name">
+
+      <label for="last_name">Last Name</label>
+      <input type="text" name="last_name">
+
+      <label for="email">Email</label>
+      <input type="text" name="email">
+
+      <label for="password"></label>
+      <input type="text" name="password">
+
+      <label for="phone">Phone</label>
+      <input type="text" name="phone">
+
+      <label for="date_of_birth">Date of Birth</label>
+      <input type="text" name="date_of_birth">
+
+      <div></div>
+    </form>
+  </body>
+</html>
