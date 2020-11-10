@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS meds;
 CREATE TABLE roles (
   roleId INT AUTO_INCREMENT,
   role VARCHAR(30),
+  accessLevel INT,
   PRIMARY KEY (roleId)
 );
 
