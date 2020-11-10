@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS appointments;
-DROP TABLE IF EXISTS rosters;
 DROP TABLE IF EXISTS meds;
 
 CREATE TABLE roles (
@@ -29,6 +28,7 @@ CREATE TABLE users (
   FOREIGN KEY (roleId)
     REFERENCES roles(roleId)
     ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE patients (
@@ -43,6 +43,7 @@ CREATE TABLE patients (
   FOREIGN KEY (userId)
     REFERENCES users(id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE employees (
@@ -50,10 +51,11 @@ CREATE TABLE employees (
   userId INT,
   salary INT,
   groupId INT,
-  PRIMARY KEY (employeeId)
+  PRIMARY KEY (employeeId),
   FOREIGN KEY (userId)
     REFERENCES users(id)
     ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE appointments (
@@ -63,25 +65,13 @@ CREATE TABLE appointments (
   appDate DATE,
   PRIMARY KEY (appointmentId),
   FOREIGN KEY (doctorId)
-    REFERENCES employees(doctorId)
-    ON DELETE CASCADE,
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   FOREIGN KEY (patientId)
     REFERENCES patients(patientId)
     ON DELETE CASCADE
-);
-
-CREATE TABLE rosters (
-  rosterId INT AUTO_INCREMENT,
-  supervisorId INT,
-  doctorId INT,
-  caregiverOne INT,
-  caregiverTwo INT,
-  caregiverThree INT,
-  caregiverFour INT,
-  PRIMARY KEY (rosterId),
-  FOREIGN KEY (supervisorId, doctorId, caregiverOne, caregiverTwo, caregiverThree, caregiverFour)
-    REFERENCES employees(supervisorId, doctorId, caregiverOne, caregiverTwo, caregiverThree, caregiverFour)
-    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE meds (
@@ -94,4 +84,5 @@ CREATE TABLE meds (
   FOREIGN KEY (patientId)
     REFERENCES patients(patientId)
     ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
