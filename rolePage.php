@@ -1,6 +1,20 @@
 <?php
 /* link to database */
 $link = mysqli_connect("localhost", "root", "", "retirement");
+/* Start of Insert new Role */
+if (isset($_POST['newRole']) and isset($_POST['access'])) {
+  $newRole = $_POST["newRole"];
+  $access = $_POST["access"];
+
+  if ($stmt = mysqli_prepare($link, "INSERT INTO roles (role, accessLevel) VALUES (?, ?)")) {
+    mysqli_stmt_bind_param($stmt, "ss", $newRole, $access);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+  }
+}
+/* End of Insert New Role */
+
+/* Start of Select All Roles */
 // query the database for all current roles
 $query = "SELECT role, accessLevel FROM roles";
 // prepare the statement
@@ -36,6 +50,8 @@ EOT;
   // close the statement
   mysqli_stmt_close($stmt);
 }
+/* End of Select All Roles */
+
 // create two textboxes that you can type into (new role and access level)
 // and a submit button */
 echo <<<EOT
