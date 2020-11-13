@@ -87,3 +87,23 @@ CREATE TABLE meds (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+INSERT INTO roles (role, accessLevel)
+VALUES ('admin', 1),
+       ('supervisor', 2),
+       ('doctor', 3),
+       ('caregiver', 4),
+       ('patient', 5),
+       ('family', 6);
+
+INSERT INTO users (firstName, lastName, roleId, age, email, password, phone, dateOfBirth, approved)
+VALUES ('admin', 'admin', 1, 0, 'admin@email.com', '123', 0, 0, 1),
+       ('doctor', 'doctor', 3, 0, 'doctor@email.com', '123', 0, 0, 1),
+       ('patient', 'patient', 5, 0, 'patient@email.com', '123', 0, 0, 1);
+
+INSERT INTO employees (userId, salary, groupId)
+VALUES  (1, 0, 0), -- Dummy Admin --
+        (2, 0, 1); -- Dummy Doctor --
+
+INSERT INTO patients (userId, familyCode, emergencyContact, emergencyRelation, groupId, admissionDate)
+VALUES (3, 123, "Dummy", "Dummy", 1, 0); -- Dummy Patient --
