@@ -1,37 +1,42 @@
 <?php
 // establish DB connection
-$link = mysqli_connect("localhost", "root", "", "retirement");
-session_start();
-if (!$link) { // If DB doesn't connect
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-    exit;
+$mysqli = new mysqli("localhost", "root", "", "retirement");
+
+/* check connection */
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
 }
+session_start();
+
 // see if email AND password were submitted
 if (isset($_POST['email']) and isset($_POST['password'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  if ($stmt = mysqli_prepare($link, "SELECT id, roleId FROM users WHERE email=? and password=?)")) {
-    // the parameters of the search
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-
-    // execute the statement
-    mysqli_stmt_execute($stmt);
-
-    // bind the results of the query to variables
-    mysqli_stmt_bind_result($stmt, $id, $roleId);
-
-    // if the query went through and found data
-    if (mysqli_stmt_fetch($stmt)) {
-      $_SESSION['user'] = $id;
-      $_SESSSION['user-access'] = $roleId;
-    }
-    mysqli_stmt_close($stmt);
+  // Prepare the query
+  $stmt = $mysqli->prepare("SELECT id, roleId FROM users WHERE email = ? AND password = ?");
+  // bind parameters for query
+  $stmt->bind_param("ss", $email, $password);
+  // execute the query
+  $stmt->execute();
+  // create variables to have info bound to them
+  $stmt->bind_result($id, $roleId);
+  // while you have the data, bind them to the session variable
+  while ($stmt->fetch()) {
+    printf ("%s, %s", $id, $roleId);
+    $_SESSION['user'] = $id;
+    $_SESSION['access'] = $roleId;
   }
 }
-
+// close the statement
+$stmt->close();
 // close DB after
-mysqli_close($link);
+$mysqli->close();
+// redirect to homepage
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$extra = '../home.html';
+header("Location: http://$host$uri/$extra");
+exit;
 ?>
