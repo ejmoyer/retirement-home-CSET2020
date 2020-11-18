@@ -19,7 +19,6 @@ CREATE TABLE users (
   firstName VARCHAR(30),
   lastName VARCHAR(30),
   roleId INT,
-  age INT,
   email VARCHAR(30),
   password VARCHAR(30),
   phone INT,
@@ -96,10 +95,10 @@ VALUES ('admin', 1),
        ('patient', 5),
        ('family', 6);
 
-INSERT INTO users (firstName, lastName, roleId, age, email, password, phone, dateOfBirth, approved)
-VALUES ('admin', 'admin', 1, 0, 'admin@email.com', '123', 0, 0, 1),
-       ('doctor', 'doctor', 3, 0, 'doctor@email.com', '123', 0, 0, 1),
-       ('patient', 'patient', 5, 0, 'patient@email.com', '123', 0, 0, 1);
+INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBirth, approved)
+VALUES ('admin', 'admin', 1, 'admin@email.com', '123', 0, 0, 1),
+       ('doctor', 'doctor', 3, 'doctor@email.com', '123', 0, 0, 1),
+       ('patient', 'patient', 5, 'patient@email.com', '123', 0, 0, 1);
 
 INSERT INTO employees (userId, salary, groupId)
 VALUES  (1, 0, 0), -- Dummy Admin --

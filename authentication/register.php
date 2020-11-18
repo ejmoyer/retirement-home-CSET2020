@@ -7,7 +7,7 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-
+// If all of the fields were filled out, prepare an insert statement.
 if (isset($_POST['role']) &&
 isset($_POST['first_name']) &&
 isset($_POST['last_name']) &&
@@ -15,16 +15,37 @@ isset($_POST['email']) &&
 isset($_POST['password']) &&
 isset($_POST['phone']) &&
 isset($_POST['date_of_birth'])) {
-  // TODO: Fix this so it grabs the role from the sql Database and then use it 
-  $stmt = $mysqli->prepare("INSERT INTO users (firstName, lastName, roleId, age, email, password, phone, dateOfBirth, approved) VALUES (?, ?, ?, ?, ?, ?, ?, 0)");
-  $stmt->bind_param("sssssii", $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['date_of_birth']);
+  if ($stmt = $mysqli->prepare("INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBirth, approved) VALUES (?, ?, ?, ?, ?, ?, ?, 0)")) {
+  $stmt->bind_param("ssissii", $_POST['first_name'], $_POST['last_name'], $_POST['role'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['date_of_birth']);
+  // execute the statement.
   $stmt->execute();
-
-  printf("%d Row inserted.\n", $stmt->affected_rows);
-
-  /* close statement and connection */
+  /* close statement */
   $stmt->close();
 
+  if (isset($_POST['family_code']) && isset($_POST['emergency_contact']) && isset($_POST['relation_to_contact'])) {
+    if ($stmt = $mysqli->prepare("SELECT id FROM users WHERE email = ?")) {
+      $stmt->bind_param("s", $_POST['email']);
+      // execute the query
+      $stmt->execute();
+      // store the result
+      $stmt->store_result();
+      // create the ID variable
+      $stmt->bind_result($id);
+      // bind the results to id
+      $stmt->fetch();
+      // close the statement
+      $stmt->close();
+
+      $stmt = $mysqli->prepare("INSERT INTO patients (userId, familyCode, emergencyContact, emergencyRelation) VALUES (?, ?, ?, ?)");
+      // bind the parameters
+      $stmt->bind_param("iiss", $id, $_POST['family_code'], $_POST['emergency_contact'], $_POST['relation_to_contact']);
+      // execute the query
+      $stmt->execute();
+      // close the statement.
+      $stmt->close();
+      }
+    }
+  }
 }
 $mysqli->close();
 ?>
