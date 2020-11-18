@@ -19,10 +19,9 @@ CREATE TABLE users (
   firstName VARCHAR(30),
   lastName VARCHAR(30),
   roleId INT,
-  age INT,
-  email VARCHAR(30),
+  email VARCHAR(30) UNIQUE,
   password VARCHAR(30),
-  phone INT,
+  phone INT UNIQUE,
   dateOfBirth date,
   approved INT,
   PRIMARY KEY (id),
@@ -35,7 +34,7 @@ CREATE TABLE users (
 CREATE TABLE patients (
   patientId INT AUTO_INCREMENT,
   userId INT,
-  familyCode INT,
+  familyCode INT UNIQUE,
   emergencyContact varchar(60),
   emergencyRelation varchar(30),
   groupId INT,
@@ -87,3 +86,23 @@ CREATE TABLE meds (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+INSERT INTO roles (role, accessLevel)
+VALUES ('admin', 1),
+       ('supervisor', 2),
+       ('doctor', 3),
+       ('caregiver', 4),
+       ('patient', 5),
+       ('family', 6);
+
+INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBirth, approved)
+VALUES ('admin', 'admin', 1, 'admin@email.com', '123', 2, 0, 1),
+       ('doctor', 'doctor', 3, 'doctor@email.com', '123', 1, 0, 1),
+       ('patient', 'patient', 5, 'patient@email.com', '123', 0, 0, 1);
+
+INSERT INTO employees (userId, salary, groupId)
+VALUES  (1, 0, 0), -- Dummy Admin --
+        (2, 0, 1); -- Dummy Doctor --
+
+INSERT INTO patients (userId, familyCode, emergencyContact, emergencyRelation, groupId, admissionDate)
+VALUES (3, 123, "Dummy", "Dummy", 1, 0); -- Dummy Patient --
