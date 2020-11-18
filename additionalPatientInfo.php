@@ -1,31 +1,58 @@
 <?php
 
 //Activate when we get the data base
+$mysqli = new mysqli("localhost", "root", "", "retirement");
 
-//$result = mysqli_queary($link, "SELECT firstName, lastName
-//FROM users
-//WHERE id = (SELECT userId FROM patients WHERE patientId = ?);
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
 
+$query = "SELECT firstName, lastName FROM users WHERE id = (SELECT userId FROM patients WHERE patientId = ?)";
+//Checking the select query
+$stmt = $mysqli->prepare($query);
+//binding patientID
+$stmt->bind_param("i", $_POST['patientID']);
+//executing SELECT query
+$stmt->execute();
+//binding firstName, lastName
+$stmt->bind_result($firstName, $lastName);
 //Check access level for admind privlages(later)
-$PatientID = $_POST["Patient_ID"];
-echo <<<EOT
-<h1>Additional Information of Patient</h1>
 
+    while ($stmt->fetch()) {
+      printf( <<<EOT
+        <p>ID: $_POST[patientID]</p>
+        <p>Name: %s %s</p>
 
-<label for="Patient ID">Patient ID:</label>
-<input type="text" name="Patient ID" value=$PatientID>
+        <form action="additionalPatientInfo.php" method="post">
 
-<label for="Patient Name">Patient Name:</label>
-<input type="text" name="Patient Name">
+        <label for="Group">Group:</label>
+        <input type="text" name="group">
 
-<label for="Group">Group:</label>
-<input type="text" name="Group">
+        <label for="Admission Date">Admission Date:</label>
+        <input type="date" name="admissionDate">
 
-<label for="Admission Date">Admission Date:</label>
-<input type="text" name="Admission Date">
-
-<input type="submit" value="Submit">
-<input type="reset" value="Clear">
+        <input type="submit">
+        <input type="reset" value="Clear">
+        </form>
+      EOT, $firstName, $lastName);
+    }
+echo<<<EOT
+</table>
 
 EOT;
+
+//use form to enter the group and admission date
+if (isset($_POST['group']) and isset($_POST['admissionDate'])) {
+$group = $_POST['group'];
+$admissionDate = $_POST['admissionDate'];
+}
+
+$query = "UPDATE patients SET admissionDate= ?, groupId=? WHERE patientId = ?";
+//Checking the insert patients query
+$stmt = $mysqli->prepare($query);
+//Posting group and admissionDate
+$stmt->bind_param("isi", $_POST['group'], $_POST['admissionDate'], $_POST['patientID']);
+//execute the insert query for patients
+$stmt->execute();
 ?>
