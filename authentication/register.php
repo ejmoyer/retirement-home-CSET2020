@@ -16,7 +16,7 @@ isset($_POST['password']) &&
 isset($_POST['phone']) &&
 isset($_POST['date_of_birth'])) {
   if ($stmt = $mysqli->prepare("INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBirth, approved) VALUES (?, ?, ?, ?, ?, ?, ?, 0)")) {
-  $stmt->bind_param("ssissii", $_POST['first_name'], $_POST['last_name'], $_POST['role'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['date_of_birth']);
+  $stmt->bind_param("ssissis", $_POST['first_name'], $_POST['last_name'], $_POST['role'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['date_of_birth']);
   // execute the statement.
   $stmt->execute();
   /* close statement */
