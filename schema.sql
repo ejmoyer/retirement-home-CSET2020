@@ -21,7 +21,7 @@ CREATE TABLE users (
   roleId INT,
   email VARCHAR(30) UNIQUE,
   password VARCHAR(30),
-  phone INT UNIQUE,
+  phone BIGINT UNIQUE,
   dateOfBirth date,
   approved INT,
   PRIMARY KEY (id),
