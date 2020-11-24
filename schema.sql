@@ -51,7 +51,6 @@ CREATE TABLE employees (
   employeeId INT AUTO_INCREMENT,
   userId INT,
   salary INT,
-  groupId INT,
   PRIMARY KEY (employeeId),
   FOREIGN KEY (userId)
     REFERENCES users(id)
@@ -135,11 +134,21 @@ VALUES ('admin', 1),
 INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBirth, approved)
 VALUES ('admin', 'admin', 1, 'admin@email.com', '123', 2, 0, 1),
        ('doctor', 'doctor', 3, 'doctor@email.com', '123', 1, 0, 1),
-       ('patient', 'patient', 5, 'patient@email.com', '123', 0, 0, 1);
+       ('patient', 'patient', 5, 'patient@email.com', '123', 0, 0, 1),
+       ('supervisor', 'supervisor', 2, 'supervisor@email.com', '123', 3, 0, 1),
+       ('caregiverone', 'caregiverone', 4, 'caregiverone@email.com', '123', 4, 0, 1),
+       ('caregivertwo', 'caregivertwo', 4, 'caregivertwo@email.com', '123', 5, 0, 1),
+       ('caregiverthree', 'caregiverthree', 4, 'caregiverthree@email.com', '123', 6, 0, 1),
+       ('caregiverfour', 'caregiverfour', 4, 'caregiverfour@email.com', '123', 7, 0, 1);
 
-INSERT INTO employees (userId, salary, groupId)
-VALUES  (1, 0, 0), -- Dummy Admin --
-        (2, 0, 1); -- Dummy Doctor --
+INSERT INTO employees (userId, salary)
+VALUES  (1, 0), -- Dummy Admin --
+        (2, 0), -- Dummy Doctor --
+        (4, 0), -- Dummy Supervisor --
+        (5, 0), -- Dummy Caregivers --
+        (6, 0),
+        (7, 0),
+        (8, 0);
 
 INSERT INTO patients (userId, familyCode, emergencyContact, emergencyRelation, groupId, admissionDate)
 VALUES (3, 123, "Dummy", "Dummy", 1, 0); -- Dummy Patient --
