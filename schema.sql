@@ -90,37 +90,13 @@ CREATE TABLE meds (
 CREATE TABLE rosters (
   rosterId INT AUTO_INCREMENT,
   rosterDate DATE UNIQUE,
-  supervisorId INT,
-  doctorId INT,
-  caregiverOne INT,
-  caregiverTwo INT,
-  caregiverThree INT,
-  caregiverFour INT,
-  PRIMARY KEY (rosterId),
-  FOREIGN KEY(supervisorId)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  FOREIGN KEY(doctorId)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  FOREIGN KEY(caregiverOne)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  FOREIGN KEY(caregiverTwo)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  FOREIGN KEY(caregiverThree)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  FOREIGN KEY(caregiverFour)
-    REFERENCES employees(employeeId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  supervisor VARCHAR(100),
+  doctor VARCHAR(100),
+  caregiverOne VARCHAR(100),
+  caregiverTwo VARCHAR(100),
+  caregiverThree VARCHAR(100),
+  caregiverFour VARCHAR(100),
+  PRIMARY KEY (rosterId)
 );
 
 INSERT INTO roles (role, accessLevel)

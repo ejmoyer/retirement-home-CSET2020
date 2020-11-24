@@ -24,7 +24,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -41,7 +41,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -58,7 +58,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -73,7 +73,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -87,7 +87,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -101,7 +101,7 @@ $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
+  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -119,7 +119,7 @@ if ((isset($_POST['roster-date'])) &&
     (isset($_POST['caregiverTwo'])) &&
     (isset($_POST['caregiverThree'])) &&
     (isset($_POST['caregiverFour']))) {
-      if ($stmt = $mysqli->prepare("INSERT INTO rosters (rosterDate, supervisorId, doctorId, caregiverOne, caregiverTwo, caregiverThree, caregiverFour) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
+      if ($stmt = $mysqli->prepare("INSERT INTO rosters (rosterDate, supervisor, doctor, caregiverOne, caregiverTwo, caregiverThree, caregiverFour) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
         $stmt->bind_param("sssssss", $_POST['roster-date'], $_POST['supervisor'], $_POST['doctor'], $_POST['caregiverOne'], $_POST['caregiverTwo'], $_POST['caregiverThree'], $_POST['caregiverFour']);
         $stmt->execute();
         $stmt->close();
