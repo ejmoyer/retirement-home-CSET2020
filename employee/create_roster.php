@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
 }
 session_start();
 $date = date("Y-m-d");
-
+// start of the page
 echo(<<<EOT
 <form action="create_roster.php" method="post">
 <label for="roster-date">Date:</label>
@@ -111,5 +111,19 @@ echo(<<<EOT
 
 EOT);
 $stmt->close();
+// if the page is posted
+if ((isset($_POST['roster-date'])) &&
+    (isset($_POST['supervisor'])) &&
+    (isset($_POST['doctor'])) &&
+    (isset($_POST['caregiverOne'])) &&
+    (isset($_POST['caregiverTwo'])) &&
+    (isset($_POST['caregiverThree'])) &&
+    (isset($_POST['caregiverFour']))) {
+      if ($stmt = $mysqli->prepare("INSERT INTO rosters (rosterDate, supervisorId, doctorId, caregiverOne, caregiverTwo, caregiverThree, caregiverFour) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
+        $stmt->bind_param("sssssss", $_POST['roster-date'], $_POST['supervisor'], $_POST['doctor'], $_POST['caregiverOne'], $_POST['caregiverTwo'], $_POST['caregiverThree'], $_POST['caregiverFour']);
+        $stmt->execute();
+        $stmt->close();
+      }
+    }
 $mysqli->close();
 ?>
