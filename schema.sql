@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS meds;
+DROP TABLE IF EXISTS rosters;
 
 CREATE TABLE roles (
   roleId INT AUTO_INCREMENT,
@@ -83,6 +84,42 @@ CREATE TABLE meds (
   PRIMARY KEY (medId),
   FOREIGN KEY (patientId)
     REFERENCES patients(patientId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE rosters (
+  rosterId INT AUTO_INCREMENT,
+  rosterDate DATE UNIQUE,
+  supervisorId INT,
+  doctorId INT,
+  caregiverOne INT,
+  caregiverTwo INT,
+  caregiverThree INT,
+  caregiverFour INT,
+  PRIMARY KEY (rosterId),
+  FOREIGN KEY(supervisorId)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(doctorId)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(caregiverOne)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(caregiverTwo)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(caregiverThree)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(caregiverFour)
+    REFERENCES employees(employeeId)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
