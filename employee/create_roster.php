@@ -1,4 +1,10 @@
 <?php
+session_start();
+// if the person on this page is not a supervisor or admin, send them to the home page.
+if ($_SESSION['access'] > 2) {
+  header("Location: ../home.html");
+  exit;
+}
 $mysqli = new mysqli('localhost', 'root', '', 'retirement');
 
 /* check connection */
@@ -6,7 +12,6 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-session_start();
 $date = date("Y-m-d");
 // start of the page
 echo(<<<EOT
@@ -18,8 +23,9 @@ echo(<<<EOT
 <select name="supervisor">
 EOT);
 // supervisor query
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 2;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 2;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
@@ -35,8 +41,9 @@ EOT);
 $stmt->close();
 
 // doctor query
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 3;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 3;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
@@ -52,8 +59,9 @@ EOT);
 $stmt->close();
 
 // caregivers query
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
@@ -67,8 +75,9 @@ echo(<<<EOT
 <select name="caregiverTwo">
 EOT);
 
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
@@ -81,8 +90,9 @@ echo(<<<EOT
 <label for="caregiverThree">Caregiver 3:</label>
 <select name="caregiverThree">
 EOT);
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
@@ -95,8 +105,9 @@ echo(<<<EOT
 <label for="caregiverFour">Caregiver 4:</label>
 <select name="caregiverFour">
 EOT);
-$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
+// get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT

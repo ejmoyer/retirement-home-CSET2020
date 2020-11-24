@@ -1,12 +1,16 @@
 <?php
 $mysqli = new mysqli('localhost', 'root', '', 'retirement');
-
+// if they are not a logged in user, send them to home
+session_start();
+if (!$_SESSION['user']) {
+  header("Location: ../home.html");
+  exit;
+}
 /* check connection */
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-session_start();
 $date = date("Y-m-d");
 
 echo <<<EOT
@@ -16,7 +20,7 @@ echo <<<EOT
 <input type="submit">
 </form>
 EOT;
-
+// if the user submitted a roster date to check, create the roster table
 if (isset($_POST['rosterDate'])) {
   echo <<<EOT
     <table>
