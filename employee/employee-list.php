@@ -77,7 +77,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, sala
   $stmt->close();
 
   // if the page was posted to
-  if (isset($_POST['empId']) && isset($_POST['salary'])) {
+  if (isset($_POST['empId']) && isset($_POST['salary']) && $_SESSION['access'] == 1) {
     if ($stmt = $mysqli->prepare("UPDATE employees SET salary = ? WHERE employeeId = ?;")) {
       $stmt->bind_param('ss', $_POST['salary'], $_POST['empId']);
       $stmt->execute();
