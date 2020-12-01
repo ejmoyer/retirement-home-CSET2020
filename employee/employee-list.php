@@ -13,11 +13,10 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-
+// table + headings
 echo <<<EOT
 <h1>Employees</h1>
 
-<form action="employee-list.php" method="post">
 <table>
 <thead>
   <tr>
@@ -30,6 +29,7 @@ echo <<<EOT
 <tbody>
 EOT;
 
+// query for all employees
 if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, salary FROM users INNER JOIN employees ON users.id = employees.userId INNER JOIN roles ON users.roleId = roles.roleId;")) {
   $stmt->execute();
   $stmt->bind_result($employeeId, $firstName, $lastName, $role, $salary);
@@ -47,6 +47,33 @@ if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, sala
   echo <<<EOT
     </tbody>
   </table>
+
+  <form action="employee-list.php" method="post">
+  <label for="empId">Employee ID:</label>
+  <input type="text" name="empId">
   EOT;
+
+  // only admins can change salary values, supervisors can't.
+  if ($_SESSION['access'] == 1) {
+    echo <<<EOT
+    <label for="salary">Salary:</label>
+    <input type="text" name="salary">
+
+    <input type="submit" value="Ok">
+    <input type="reset" value="Cancel">
+    </form>
+    EOT;
+  } else {
+    echo <<<EOT
+    <label for="salary">Salary:</label>
+    <input type="text" name="salary" disabled>
+
+    <input type="submit" value="Ok">
+    <input type="reset" value="Cancel">
+    </form>
+    EOT;
+  }
 }
+$stmt->close();
+$mysqli->close();
 ?>
