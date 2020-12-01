@@ -23,14 +23,14 @@ echo(<<<EOT
 <select name="supervisor">
 EOT);
 // supervisor query
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 2;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM employees INNER JOIN users ON employees.userId = users.id WHERE roleId = 2;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -41,14 +41,14 @@ EOT);
 $stmt->close();
 
 // doctor query
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 3;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 3;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -59,14 +59,14 @@ EOT);
 $stmt->close();
 
 // caregivers query
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -75,14 +75,14 @@ echo(<<<EOT
 <select name="caregiverTwo">
 EOT);
 
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -90,14 +90,14 @@ echo(<<<EOT
 <label for="caregiverThree">Caregiver 3:</label>
 <select name="caregiverThree">
 EOT);
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -105,14 +105,14 @@ echo(<<<EOT
 <label for="caregiverFour">Caregiver 4:</label>
 <select name="caregiverFour">
 EOT);
-$stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
+$stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();
 // get the results of the query and create options for those names
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
   printf (<<<EOT
   <option value="%s">%s %s</option>
-  EOT, $row['firstName'] . " " . $row['lastName'], $row['firstName'], $row['lastName']);
+  EOT, $row['employeeId'], $row['firstName'], $row['lastName']);
 }
 echo(<<<EOT
 </select>
@@ -130,7 +130,7 @@ if ((isset($_POST['roster-date'])) &&
     (isset($_POST['caregiverTwo'])) &&
     (isset($_POST['caregiverThree'])) &&
     (isset($_POST['caregiverFour']))) {
-      if ($stmt = $mysqli->prepare("INSERT INTO rosters (rosterDate, supervisor, doctor, caregiverOne, caregiverTwo, caregiverThree, caregiverFour) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
+      if ($stmt = $mysqli->prepare("INSERT INTO rosters (rosterDate, supervisorId, doctorId, caregiverOne, caregiverTwo, caregiverThree, caregiverFour) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
         $stmt->bind_param("sssssss", $_POST['roster-date'], $_POST['supervisor'], $_POST['doctor'], $_POST['caregiverOne'], $_POST['caregiverTwo'], $_POST['caregiverThree'], $_POST['caregiverFour']);
         $stmt->execute();
         $stmt->close();
