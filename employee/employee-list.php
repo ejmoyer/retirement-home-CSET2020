@@ -44,6 +44,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, sala
         </tr>
         EOT, $employeeId, $firstName . " " . $lastName, $role, $salary);
   }
+  // create the rest of the page
   echo <<<EOT
     </tbody>
   </table>
@@ -59,7 +60,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, sala
     <label for="salary">Salary:</label>
     <input type="text" name="salary">
 
-    <input type="submit" value="Ok">
+    <input type="submit">
     <input type="reset" value="Cancel">
     </form>
     EOT;
@@ -73,7 +74,19 @@ if ($stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName, role, sala
     </form>
     EOT;
   }
+  $stmt->close();
+
+  // if the page was posted to
+  if (isset($_POST['empId']) && isset($_POST['salary'])) {
+    if ($stmt = $mysqli->prepare("UPDATE employees SET salary = ? WHERE employeeId = ?;")) {
+      $stmt->bind_param('ss', $_POST['salary'], $_POST['empId']);
+      $stmt->execute();
+      $stmt->close();
+      // reload the page afterward (sends a get so things are posted twice)
+      header('Location: employee-list.php');
+    }
+  }
 }
-$stmt->close();
+
 $mysqli->close();
 ?>
