@@ -35,24 +35,41 @@ if (isset($_POST['rosterDate'])) {
       </tr>
     </thead>
     <tbody>
+      <tr>
     EOT;
-
+// because of how the roster is set up, we will set each row to it's own variable and make an array out of it
   if ($stmt = $mysqli->prepare("SELECT * FROM rosters WHERE rosterDate = ?")) {
     $stmt->bind_param("s", $_POST['rosterDate']);
     $stmt->execute();
     $result = $stmt->get_result();
     // fetch values
     while ($row = $result->fetch_assoc()) {
-        printf (<<<EOT
-        <tr>
-          <td>%s</td>
-          <td>%s</td>
-          <td>%s</td>
-          <td>%s</td>
-          <td>%s</td>
-          <td>%s</td>
+      $supervisorId = $row['supervisorId'];
+      $doctorId = $row['doctorId'];
+      $caregiverOne = $row['caregiverOne'];
+      $caregiverTwo = $row['caregiverTwo'];
+      $caregiverThree = $row['caregiverThree'];
+      $caregiverFour = $row['caregiverFour'];
+    }
+    // making it an array will allow us to go through each item and get the employee's names one at a time and then add them to the table
+    $employees = array($supervisorId, $doctorId, $caregiverOne, $caregiverTwo, $caregiverThree, $caregiverFour);
+    $stmt->close();
+
+    if ($stmt = $mysqli->prepare("SELECT firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE employeeId = ?")) {
+      foreach ($employees as $employee) {
+        $stmt->bind_param('s', $employee);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+        printf(<<<EOT
+        <td>%s %s</td>
+        EOT, $row['firstName'], $row['lastName']);
+      }
+      }
+      $stmt->close();
+    }
+      echo <<<EOT
         </tr>
-        <tr>
           <td></td>
           <td></td>
           <td>Group 1</td>
@@ -60,10 +77,6 @@ if (isset($_POST['rosterDate'])) {
           <td>Group 3</td>
           <td>Group 4</td>
         </tr>
-        EOT, $row['supervisor'], $row['doctor'], $row['caregiverOne'], $row['caregiverTwo'], $row['caregiverThree'], $row['caregiverFour']);
-      }
-      $stmt->close();
-      echo <<<EOT
         </tbody>
       </table>
       EOT;
