@@ -123,6 +123,10 @@ echo(<<<EOT
 EOT);
 $stmt->close();
 // if the page is posted
+$groupOne = 1;
+$groupTwo = 2;
+$groupThree = 3;
+$groupFour = 4;
 if ((isset($_POST['roster-date'])) &&
     (isset($_POST['supervisor'])) &&
     (isset($_POST['doctor'])) &&
@@ -134,7 +138,22 @@ if ((isset($_POST['roster-date'])) &&
         $stmt->bind_param("sssssss", $_POST['roster-date'], $_POST['supervisor'], $_POST['doctor'], $_POST['caregiverOne'], $_POST['caregiverTwo'], $_POST['caregiverThree'], $_POST['caregiverFour']);
         $stmt->execute();
         $stmt->close();
+
+      if ($stmt = $mysqli->prepare("INSERT INTO groupJunction (rosterDate, groupId, caregiverId) VALUES (?, ?, ?)")) {
+        $stmt->bind_param("sss", $_POST['roster-date'], $groupOne, $_POST['caregiverOne']);
+        $stmt->execute();
+
+        $stmt->bind_param("sss", $_POST['roster-date'], $groupTwo, $_POST['caregiverTwo']);
+        $stmt->execute();
+
+        $stmt->bind_param("sss", $_POST['roster-date'], $groupThree, $_POST['caregiverThree']);
+        $stmt->execute();
+
+        $stmt->bind_param("sss", $_POST['roster-date'], $groupFour, $_POST['caregiverFour']);
+        $stmt->execute();
+        $stmt->close();
       }
+    }
     }
 $mysqli->close();
 ?>

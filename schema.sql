@@ -123,6 +123,37 @@ CREATE TABLE rosters (
     ON UPDATE CASCADE
 );
 
+CREATE TABLE checkboxes (
+  checkboxesId INT AUTO_INCREMENT,
+  checkboxDate DATE,
+  patientId INT,
+  morningMed BOOLEAN,
+  afternoonMed BOOLEAN,
+  nightMed BOOLEAN,
+  breakfast BOOLEAN,
+  lunch BOOLEAN,
+  dinner BOOLEAN,
+  PRIMARY KEY (checkboxesId),
+  FOREIGN KEY (patientId)
+    REFERENCES patients(patientId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE groupJunction (
+  rosterDate DATE,
+  groupId INT,
+  caregiverId INT,
+  FOREIGN KEY (rosterDate)
+    REFERENCES rosters(rosterDate)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (caregiverId)
+    REFERENCES employees(employeeId)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
 INSERT INTO roles (role, accessLevel)
 VALUES ('admin', 1),
        ('supervisor', 2),
