@@ -127,25 +127,16 @@ CREATE TABLE checkboxes (
   checkboxesId INT AUTO_INCREMENT,
   checkboxDate DATE,
   patientId INT,
-  morningMed BOOLEAN,
-  afternoonMed BOOLEAN,
-  nightMed BOOLEAN,
-  breakfast BOOLEAN,
-  lunch BOOLEAN,
-  dinner BOOLEAN,
+  caregiverId INT,
+  morningMed BOOLEAN DEFAULT 0,
+  afternoonMed BOOLEAN DEFAULT 0,
+  nightMed BOOLEAN DEFAULT 0,
+  breakfast BOOLEAN DEFAULT 0,
+  lunch BOOLEAN DEFAULT 0,
+  dinner BOOLEAN DEFAULT 0,
   PRIMARY KEY (checkboxesId),
   FOREIGN KEY (patientId)
     REFERENCES patients(patientId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE groupJunction (
-  rosterDate DATE,
-  groupId INT,
-  caregiverId INT,
-  FOREIGN KEY (rosterDate)
-    REFERENCES rosters(rosterDate)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (caregiverId)
@@ -166,6 +157,8 @@ INSERT INTO users (firstName, lastName, roleId, email, password, phone, dateOfBi
 VALUES ('admin', 'admin', 1, 'admin@email.com', '123', 2, 0, 1),
        ('doctor', 'doctor', 3, 'doctor@email.com', '123', 1, 0, 1),
        ('patient', 'patient', 5, 'patient@email.com', '123', 0, 0, 1),
+       ('patienttwo', 'patienttwo', 5, 'patienttwo@email.com', '123', 8, 0, 1),
+       ('patienttwo', 'patientthree', 5, 'patientthree@email.com', '123', 9, 0, 1),
        ('supervisor', 'supervisor', 2, 'supervisor@email.com', '123', 3, 0, 1),
        ('caregiverone', 'caregiverone', 4, 'caregiverone@email.com', '123', 4, 0, 1),
        ('caregivertwo', 'caregivertwo', 4, 'caregivertwo@email.com', '123', 5, 0, 1),
@@ -175,11 +168,13 @@ VALUES ('admin', 'admin', 1, 'admin@email.com', '123', 2, 0, 1),
 INSERT INTO employees (userId, salary)
 VALUES  (1, 0), -- Dummy Admin --
         (2, 0), -- Dummy Doctor --
-        (4, 0), -- Dummy Supervisor --
-        (5, 0), -- Dummy Caregivers --
-        (6, 0),
-        (7, 0),
-        (8, 0);
+        (6, 0), -- Dummy Supervisor --
+        (7, 0), -- Dummy Caregivers --
+        (8, 0),
+        (9, 0),
+        (10, 0);
 
 INSERT INTO patients (userId, familyCode, emergencyContact, emergencyRelation, groupId, admissionDate)
-VALUES (3, 123, "Dummy", "Dummy", 1, 0); -- Dummy Patient --
+VALUES (3, 123, "Dummy", "Dummy", 1, 0), -- Dummy Patient --
+       (4, 1234, "Dummy", "Dummy", 2, 0),
+       (5, 12345, "Dummy", "Dummy", 3, 0);
