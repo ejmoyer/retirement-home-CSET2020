@@ -2,9 +2,10 @@
 session_start();
 // If they aren't an admin, stop the script.
 if ($_SESSION['access'] > 1) {
-  echo "<p>You shouldn't be here.</p>";
-  exit();
+  header("Location: ../home.html");
+  exit;
 }
+
 $mysqli = new mysqli('localhost', 'root', '', 'retirement');
 
 /* check connection */
@@ -23,6 +24,13 @@ if (isset($_POST['newRole']) and isset($_POST['access'])) {
   $stmt->close();
 }
 /* End of Insert New Role */
+
+// logout button
+echo <<<EOT
+<form action="../authentication/logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
 
 /* Start of Select All Roles */
 // query the database for all current roles
