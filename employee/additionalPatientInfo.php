@@ -5,6 +5,14 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+
+// logout button
+echo <<<EOT
+<form action="../authentication/logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
+
 $query = "SELECT firstName, lastName FROM users WHERE id = (SELECT userId FROM patients WHERE patientId = ?)";
 //Checking the select query
 $stmt = $mysqli->prepare($query);

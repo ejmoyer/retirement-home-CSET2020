@@ -13,6 +13,14 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+
+// logout button
+echo <<<EOT
+<form action="../authentication/logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
+
 // table + headings
 echo <<<EOT
 <h1>Employees</h1>

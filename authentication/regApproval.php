@@ -1,10 +1,18 @@
 <?php
 // start the session and make sure they're a supervisor or admin
 session_start();
+
 if ($_SESSION['access'] > 2) {
-  echo "You shouldn't be here.";
+  header("Location: ../home.html");
   exit;
 }
+
+// logout button
+echo <<<EOT
+<form action="logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
 
 $mysqli = new mysqli("localhost", "root", "", "retirement");
 

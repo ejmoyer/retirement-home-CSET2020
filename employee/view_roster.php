@@ -13,6 +13,13 @@ if (mysqli_connect_errno()) {
 }
 $date = date("Y-m-d");
 
+// logout button
+echo <<<EOT
+<form action="../authentication/logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
+
 echo <<<EOT
 <form action="view_roster.php" method="post">
 <input type="date" name="rosterDate" value="$date">

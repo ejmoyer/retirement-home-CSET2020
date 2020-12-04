@@ -36,7 +36,32 @@ $mysqli->close();
 // redirect to homepage
 $host  = $_SERVER['HTTP_HOST'];
 $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-$extra = '../home.html';
-header("Location: http://$host$uri/$extra");
+
+switch ($_SESSION['access']) {
+  case 1:
+    $extra = "../employee/admin-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  case 2:
+    $extra = "../employee/supervisor-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  case 3:
+    $extra = "../employee/doctor-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  case 4:
+    $extra = "../employee/caregiver-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  case 5:
+    $extra = "../employee/patient-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  case 6:
+    $extra = "../employee/familymember-home.php";
+    header("Location: http://$host$uri/$extra");
+    break;
+  }
 exit;
 ?>

@@ -8,6 +8,18 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
+// check access
+if ($_SESSION['access'] != 4) {
+  header('Location: ../home.html');
+  exit;
+}
+
+// logout button
+echo <<<EOT
+<form action="../authentication/logout.php" method="get">
+<input type=submit value=Logout>
+</form>
+EOT;
 
 // get the caregiver's employee id
 if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees WHERE userId = ?")) {
