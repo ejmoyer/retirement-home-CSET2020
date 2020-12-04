@@ -123,6 +123,10 @@ echo(<<<EOT
 EOT);
 $stmt->close();
 // if the page is posted
+$groupOne = 1;
+$groupTwo = 2;
+$groupThree = 3;
+$groupFour = 4;
 if ((isset($_POST['roster-date'])) &&
     (isset($_POST['supervisor'])) &&
     (isset($_POST['doctor'])) &&
@@ -134,7 +138,70 @@ if ((isset($_POST['roster-date'])) &&
         $stmt->bind_param("sssssss", $_POST['roster-date'], $_POST['supervisor'], $_POST['doctor'], $_POST['caregiverOne'], $_POST['caregiverTwo'], $_POST['caregiverThree'], $_POST['caregiverFour']);
         $stmt->execute();
         $stmt->close();
+
+        $onePatients = [];
+        $twoPatients = [];
+        $threePatients = [];
+        $fourPatients = [];
+
+        if ($stmt = $mysqli->prepare("SELECT patientId FROM patients WHERE groupId = ?")) {
+          $stmt->bind_param('i', $groupOne);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $onePatients[] = $row['patientId'];
+          }
+
+          $stmt->bind_param('i', $groupTwo);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $twoPatients[] = $row['patientId'];
+          }
+
+          $stmt->bind_param('i', $groupThree);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $threePatients[] = $row['patientId'];
+          }
+
+          $stmt->bind_param('i', $groupFour);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ($row = $result->fetch_assoc()) {
+            $fourPatients[] = $row['patientId'];
+          }
+          $stmt->close();
+
+          if ($stmt = $mysqli->prepare("INSERT INTO checkboxes (checkboxDate, patientId, caregiverId) VALUES (?, ?, ?)")) {
+            foreach ($onePatients as $patient) {
+              $stmt->bind_param('sii', $_POST['roster-date'], $patient, $_POST['caregiverOne']);
+              $stmt->execute();
+            }
+
+            foreach ($twoPatients as $patient) {
+              $stmt->bind_param('sii', $_POST['roster-date'], $patient, $_POST['caregiverTwo']);
+              $stmt->execute();
+            }
+
+            foreach ($threePatients as $patient) {
+              $stmt->bind_param('sii', $_POST['roster-date'], $patient, $_POST['caregiverThree']);
+              $stmt->execute();
+            }
+
+            foreach ($fourPatients as $patient) {
+              $stmt->bind_param('sii', $_POST['roster-date'], $patient, $_POST['caregiverFour']);
+              $stmt->execute();
+            }
+            $stmt->close();
+          }
+        }
+        }
       }
-    }
 $mysqli->close();
 ?>
