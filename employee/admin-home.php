@@ -19,5 +19,6 @@ echo <<<EOT
 <a href="rolePage.php">All Roles Page</a>
 <a href="employee-list.php">All Employees List</a>
 <a href="additionalPatientInfo.html">Additional Patient Info</a>
+<a href="doctor-app.php">New Doctor Appointment</a>
 EOT;
 ?>

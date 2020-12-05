@@ -18,5 +18,6 @@ echo <<<EOT
 <a href="view_roster.php">View Roster</a>
 <a href="employee-list.php">All Employees List</a>
 <a href="additionalPatientInfo.html">Additional Patient Info</a>
+<a href="doctor-app.php">New Doctor Appointment</a>
 EOT;
 ?>
