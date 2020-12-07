@@ -25,18 +25,20 @@ EOT;
 echo <<<EOT
 <form action="family-member-home.php" method="post">
 <label for="rosterDate">Date</label>
-<input type="text" name="rosterDate">
+<input type="date" name="rosterDate">
 
 <label for="familyCode">Family Code</label>
 <input type="text" name="familyCode">
 
 <label for="patientId">Patient ID</label>
 <input type="text" name="patientId">
+
+<input type="submit">
 EOT;
 
 if (isset($_POST['rosterDate']) && isset($_POST['familyCode']) && isset($_POST['patientId'])) {
   echo <<<EOT
-  <table>
+    <table>
     <thead>
       <tr>
         <th scope="col">Doctor's Name</th>
@@ -52,6 +54,32 @@ if (isset($_POST['rosterDate']) && isset($_POST['familyCode']) && isset($_POST['
     </thead>
     <tbody>
     EOT;
-}
+
+    if ($stmt = $mysqli->prepare("SELECT firstName, lastName FROM users JOIN employees ON employees.userId = users.id JOIN rosters ON employees.employeeId = rosters.doctorId WHERE rosters.rosterDate = ?")) {
+      $stmt->bind_param("s", $_POST['rosterDate']);
+      $stmt->execute();
+      $stmt->bind_result($docFirstName, $docLastName);
+      while ($stmt->fetch()) {
+        printf (<<<EOT
+          <tr scope="row">
+          <td>%s %s</td>
+          EOT, $docFirstName, $docLastName);
+      }
+      $stmt->close();
+
+      if ($stmt = $mysqli->prepare("SELECT * FROM appointments WHERE appDate = ? and patientId = ?")) {
+        $stmt->bind_param("si", $_POST['rosterDate'], $_POST['patientId']);
+        $stmt->execute();
+
+        $stmt->store_result();
+        if ($stmt->num_rows() == 0) {
+          echo ("<td><input type=checkbox disabled></td>");
+        } else {
+          echo ("<td><input type=checkbox checked disabled></td>");
+        }
+        $stmt->close();
+      }
+    }
+  }
 $mysqli->close();
 ?>
