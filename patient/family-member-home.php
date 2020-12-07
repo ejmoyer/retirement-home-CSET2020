@@ -23,6 +23,8 @@ echo <<<EOT
 EOT;
 
 echo <<<EOT
+<h1>Family Member's Home</h1>
+
 <form action="family-member-home.php" method="post">
 <label for="rosterDate">Date</label>
 <input type="date" name="rosterDate">
@@ -54,7 +56,7 @@ if (isset($_POST['rosterDate']) && isset($_POST['familyCode']) && isset($_POST['
     </thead>
     <tbody>
     EOT;
-
+    // query to get the doctor name
     if ($stmt = $mysqli->prepare("SELECT firstName, lastName FROM users JOIN employees ON employees.userId = users.id JOIN rosters ON employees.employeeId = rosters.doctorId WHERE rosters.rosterDate = ?")) {
       $stmt->bind_param("s", $_POST['rosterDate']);
       $stmt->execute();
@@ -66,18 +68,72 @@ if (isset($_POST['rosterDate']) && isset($_POST['familyCode']) && isset($_POST['
           EOT, $docFirstName, $docLastName);
       }
       $stmt->close();
-
-      if ($stmt = $mysqli->prepare("SELECT * FROM appointments WHERE appDate = ? and patientId = ?")) {
+      // check if an appointment exists first
+      if ($stmt = $mysqli->prepare("SELECT * FROM appointments WHERE appDate = ? and patientId = ?;")) {
         $stmt->bind_param("si", $_POST['rosterDate'], $_POST['patientId']);
         $stmt->execute();
 
         $stmt->store_result();
+        // if there isn't an appointment, the checkbox will be blank. Otherwise it will be checked.
         if ($stmt->num_rows() == 0) {
           echo ("<td><input type=checkbox disabled></td>");
         } else {
           echo ("<td><input type=checkbox checked disabled></td>");
         }
         $stmt->close();
+        // query to get the rest of the table (caregiver and all the checkboxes)
+        if ($stmt = $mysqli->prepare("SELECT firstName, lastName, morningMed, afternoonMed, nightMed, breakfast, lunch, dinner FROM users JOIN employees ON employees.userId = users.id JOIN checkboxes ON employees.employeeId = checkboxes.caregiverId WHERE checkboxDate = ? and checkboxes.patientId = ?;")) {
+          $stmt->bind_param("si", $_POST['rosterDate'], $_POST['patientId']);
+          $stmt->execute();
+          $stmt->bind_result($careFirstName, $careLastName, $morningMed, $afternoonMed, $nightMed, $breakfast, $lunch, $dinner);
+          while ($stmt->fetch()) {
+            printf (<<<EOT
+            <td>%s %s</td>
+            EOT, $careFirstName, $careLastName);
+            if ($morningMed == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+
+            if ($afternoonMed == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+
+            if ($nightMed == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+
+            if ($breakfast == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+
+            if ($lunch == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+
+            if ($dinner == 1) {
+              echo "<td><input type=checkbox checked disabled></td>";
+            } else {
+              echo "<td><input type=checkbox disabled></td>";
+            }
+          }
+          $stmt->close();
+
+          echo <<<EOT
+          </tr>
+          </tbody>
+          </table>
+          EOT;
+        }
       }
     }
   }
