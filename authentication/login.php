@@ -59,7 +59,7 @@ switch ($_SESSION['access']) {
     header("Location: http://$host$uri/$extra");
     break;
   case 6:
-    $extra = "../employee/familymember-home.php";
+    $extra = "../patient/family-member-home.php";
     header("Location: http://$host$uri/$extra");
     break;
   }
