@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['access'] != 1) {
+if ($_SESSION['access'] > 2) {
   header('Location: ../home.html');
   exit;
 }
@@ -32,7 +32,7 @@ EOT;
 if (isset($_POST['checkboxDate'])) {
   $patientsArray = [];
 
-  if ($stmt = $mysqli->prepare("SELECT patientId FROM checkboxes WHERE checkboxDate = ?;")) {
+  if ($stmt = $mysqli->prepare("SELECT checkboxes.patientId FROM users JOIN patients ON users.id = patients.userId JOIN checkboxes ON patients.patientId = checkboxes.patientId WHERE checkboxDate = ? AND ((morningMed = 0) OR (afternoonMed = 0) OR (nightMed = 0) OR (breakfast = 0) OR (lunch = 0) OR (dinner = 0));")) {
     $stmt->bind_param("s", $_POST['checkboxDate']);
     $stmt->execute();
     $stmt->bind_result($patient);
@@ -155,10 +155,6 @@ if (isset($_POST['checkboxDate'])) {
   </tbody>
   </table>
   EOT;
+  }
 }
-}
-
-// NOTE: Move all this onto another branch. Use the first query to get every patientId on a given day and put them in an array
-// NOTE: use this query then in that foreach loop to find missing checkboxes for that patientId:
-// NOTE: SELECT firstName, lastName, morningMed, afternoonMed, nightMed, breakfast, lunch, dinner FROM users JOIN patients ON users.id = patients.userId JOIN checkboxes ON patients.patientId = checkboxes.patientId WHERE checkboxDate = "2020-12-07" AND checkboxes.patientId = 1 AND ((morningMed = 0) OR (afternoonMed = 0) OR (nightMed = 0) OR (breakfast = 0) OR (lunch = 0) OR (dinner = 0));
 ?>
