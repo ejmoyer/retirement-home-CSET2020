@@ -21,5 +21,6 @@ echo <<<EOT
 <a href="additionalPatientInfo.html">Additional Patient Info</a>
 <a href="doctor-app.php">New Doctor Appointment</a>
 <a href="admin-report.php">Missed Patient Activity</a>
+<a href="payment.php">Patient Payments</a>
 EOT;
 ?>
