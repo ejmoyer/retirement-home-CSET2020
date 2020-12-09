@@ -40,7 +40,7 @@ CREATE TABLE patients (
   emergencyRelation varchar(30),
   groupId INT,
   admissionDate DATE,
-  lastPaidDate DATE,
+  lastUpdateDate DATE,
   totalDue INT,
   PRIMARY KEY (patientId),
   FOREIGN KEY (userId)
