@@ -37,7 +37,7 @@ if (!isset($_POST['patientId'])) {
   EOT;
 } else {
   echo <<<EOT
-  <form action="payment.php" method="post">
+  <form action="payment-update.php" method="post">
   <label for="patientId">Patient ID</label>
   <input type="text" name="patientId" value="$_POST[patientId]">
 
@@ -69,11 +69,14 @@ if (!isset($_POST['patientId'])) {
       while ($stmt->fetch()) {
         if ($lastUpdateDate != $currentDate) {
           echo "<p>Last Paid Date: $lastUpdateDate</p>";
+          echo "<p>Previous Total: $totalDue</p>";
         } else {
           echo "<p>All up to date.</p>";
+          echo "<p>Previous Total: $totalDue</p>";
         }
       }
-    }
+      $stmt->close();
   }
+}
 }
 ?>
