@@ -98,7 +98,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees where userId = ?"
         $stmt->bind_param("iss", $doctorId, $currentDate, $_POST['untilDate']);
         $stmt->execute();
         $stmt->bind_result($patFirstName, $patLastName, $appDate);
-        if ($stmt->fetch()) {
+        while ($stmt->fetch()) {
           printf (<<<EOT
           <tr>
             <td>%s %s</td>
