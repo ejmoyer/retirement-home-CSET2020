@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 
 // if they are not a supervisor or admin
@@ -18,7 +26,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 $patient = 0;
@@ -29,6 +37,7 @@ if ($stmt = $mysqli->prepare("SELECT patientId, firstName, lastName FROM patient
   while ($stmt->fetch()) {
   printf (<<<EOT
   <h1>Patient's Home</h1>
+  <div class='inputs'>
   <label for="patientId">Patient ID</label>
   <input type="text" name="patientId" value="%s" disabled>
 
@@ -40,6 +49,7 @@ if ($stmt = $mysqli->prepare("SELECT patientId, firstName, lastName FROM patient
   <input type="date" name="checkboxDate">
 
   <input type="submit">
+  </div>
   </form>
   EOT, $patientId, $firstName, $lastName);
   }
@@ -48,7 +58,7 @@ if ($stmt = $mysqli->prepare("SELECT patientId, firstName, lastName FROM patient
 
   if (isset($_POST['checkboxDate'])) {
     echo <<<EOT
-      <table>
+      <table id='tableStyle'>
       <thead>
         <tr>
           <th scope="col">Doctor's Name</th>

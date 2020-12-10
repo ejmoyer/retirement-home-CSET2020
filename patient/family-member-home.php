@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 
 // if they are not a supervisor or admin
@@ -18,7 +26,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -40,7 +48,7 @@ EOT;
 
 if (isset($_POST['rosterDate']) && isset($_POST['familyCode']) && isset($_POST['patientId'])) {
   echo <<<EOT
-    <table>
+    <table id='tableStyle'>
     <thead>
       <tr>
         <th scope="col">Doctor's Name</th>

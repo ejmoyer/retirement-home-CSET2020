@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 //Activate when we get the data base
 $mysqli = new mysqli("localhost", "root", "", "retirement");
 if (mysqli_connect_errno()) {
@@ -9,7 +17,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -25,6 +33,8 @@ $stmt->bind_result($firstName, $lastName);
 //Check access level for admind privlages(later)
     while ($stmt->fetch()) {
       printf( <<<EOT
+        <h1>Additional Patient Info</h1>
+        <div class='inputs'>
         <p>Name: %s %s</p>
         <form action="additionalPatientInfo.php" method="post">
         <label for="patientId">ID:</label>
@@ -36,6 +46,7 @@ $stmt->bind_result($firstName, $lastName);
         <input type="submit">
         <input type="reset" value="Clear">
         </form>
+        </div>
       EOT, $firstName, $lastName);
     }
 echo <<<EOT

@@ -1,0 +1,138 @@
+/* Default Page layout */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* Page Background Color */
+body {
+  background-color: #3fd4c3;
+}
+
+/* Logout Button Styles */
+input.logout {
+  position: relative;
+  left: 95%;
+  font-size: 1rem;
+}
+
+/* Shadow Under Inputs */
+input {
+ box-shadow: 2px 2px 2px black;
+}
+
+/* div */
+div.inputs {
+   text-align: center;
+   font-size: 20px;
+}
+
+div.payment {
+  display : block;text-align : center;
+  border: solid;
+  padding: 5px;
+  text-decoration: none;
+  margin: 1rem auto;
+  background-color: #a3a3c9;
+  width: 20rem;
+  color: black;
+  font-size: 20pt;
+}
+
+
+/* Hover Effect */
+input:hover, a:hover, a.register:hover, a.home:hover, a.adHome:hover {
+ background: #cdd1d1;
+ background-color: #cdd1d1;
+}
+
+/* Centered Submit Buttons */
+input.submit {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 1.25rem;
+}
+
+/* First Header styles */
+h1 {
+  color: Black;
+  font-family: 'Crimson Text', serif;
+  font-weight: 200;
+  margin: 2rem auto;
+  text-align: center;
+  background-color: #ffb700;
+}
+
+/* Input Spacing*/
+input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* Login.html Page Form Styles */
+form.login {
+  text-align: center;
+  padding: 10px;
+  font-size: 25px;
+}
+/* a Styles on Admin-Home */
+a.adHome {
+  border: solid;
+  padding: 3px;
+  background-color: white;
+  width: 10rem;
+  text-decoration: none;
+  font-size: 15pt;
+}
+
+/* a Styles on Home, Login Page */
+a.register, a.home {
+  display : block;text-align : center;
+  border: solid;
+  padding: 5px;
+  text-decoration: none;
+  margin: 1rem auto;
+  background-color: white;
+  width: 7rem;
+  color: black;
+  font-size: 20pt;
+}
+
+/* register.html Styles */
+form.register {
+  width: 12rem;
+  margin: 2rem auto;
+  font-size: 20px;
+}
+
+/** Registration Approval Table **/
+#tableStyle {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  background-color: white;
+}
+
+#tableStyle td, #tableStyle th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#tableStyle tr:nth-child(even){background-color: #f2f2f2;}
+
+#tableStyle th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #eb5468;
+  color: white;
+}
+
+#tableStyle tr:hover{
+ background: #cdd1d1;
+ background-color: #cdd1d1;
+}

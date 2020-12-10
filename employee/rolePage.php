@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 // If they aren't an admin, stop the script.
 if ($_SESSION['access'] > 1) {
@@ -28,7 +36,7 @@ if (isset($_POST['newRole']) and isset($_POST['access'])) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout'type=submit value=Logout>
 </form>
 EOT;
 
@@ -39,7 +47,8 @@ $stmt = $mysqli->prepare("SELECT role, accessLevel FROM roles");
 $stmt->execute();
 $stmt->bind_result($role, $accessLevel);
 echo <<<EOT
-<table>
+<h1>Roles</h1>
+<table id='tableStyle'>
   <thead>
     <tr>
       <th scope="col">Role</th>
@@ -68,6 +77,7 @@ $stmt->close();
 // create two textboxes that you can type into (new role and access level)
 // and a submit button */
 echo <<<EOT
+<div class='inputs'>
 <form action="rolePage.php" method="post">
 <label for="newRole">New Role</label>
 <input type="text" name="newRole">
@@ -77,6 +87,7 @@ echo <<<EOT
 
 <input type="submit">
 </form>
+</div>
 EOT;
 $mysqli->close();
 ?>

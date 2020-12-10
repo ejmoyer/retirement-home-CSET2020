@@ -1,4 +1,14 @@
 <?php
+
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
+
 // start the session and make sure they're a supervisor or admin
 session_start();
 
@@ -10,7 +20,7 @@ if ($_SESSION['access'] > 2) {
 // logout button
 echo <<<EOT
 <form action="logout.php" method="get">
-<input type=submit value=Logout>
+<input class="logout" type=submit value=Logout>
 </form>
 EOT;
 
@@ -23,8 +33,9 @@ if (mysqli_connect_errno()) {
 }
 // start the html to select the people to approve
   echo <<<EOT
+  <h1>Registration Approval</h1>
   <form action="regApproval.php" method="post">
-    <table>
+    <table id='tableStyle'>
     <thead>
       <tr>
         <th scope="col">Yes</th>
@@ -56,7 +67,7 @@ if (mysqli_connect_errno()) {
     echo <<<EOT
       </tbody>
     </table>
-    <input type="submit">
+    <input class='submit' type="submit">
     </form>
     EOT;
     // get each checkbox which each have a user id on it

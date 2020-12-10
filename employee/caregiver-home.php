@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 
 $mysqli = new mysqli('localhost', 'root', '', 'retirement');
@@ -17,7 +25,7 @@ if ($_SESSION['access'] != 4) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -35,7 +43,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees WHERE userId = ?"
 echo <<<EOT
 <h1>Caregiver's Home</h1>
 
-<table>
+<table id='tableStyle'>
   <thead>
     <tr>
       <th scope="col">Name</th>

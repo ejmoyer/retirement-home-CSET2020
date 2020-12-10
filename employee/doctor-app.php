@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 
 // if they are not a supervisor or admin
@@ -18,11 +26,12 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
 echo <<<EOT
+<h1>Doctor Applications</h1>
 <form action="doctor-app.php" method="post">
 <label for="patientId">Patient ID:</label>
 <input type="text" name="patientId">
