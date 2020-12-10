@@ -13,7 +13,7 @@ if ($_SESSION['access'] != 3) {
   header('Location: ../home.html');
   exit;
 }
-
+$currentDate = date("Y-m-d");
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
@@ -63,17 +63,55 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees where userId = ?"
         <td>%s</td>
         <td>%s</td>
         <td>%s</td>
-        <form action="doc-patient-info.php" method="post">
         <td>
+        <form action="doc-patient-info.php" method="post">
         <input type="text" value="%s" hidden>
         <input type="submit" value="More Info">
         </form>
         </td>
       </tr>
-
       EOT, $patFirstName, $patLastName, $appDate, $comment, $morningMed, $afternoonMed, $nightMed, $patientId);
     }
+    $stmt->close();
+    echo <<<EOT
+    </tbody>
+    </table>
 
+    <h1>Appointments</h1>
+
+    <form action="doctor-home.php" method="post">
+    <input type="date" name="untilDate">
+    <input type="submit">
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Patient Name</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+    EOT;
+    if (isset($_POST['untilDate'])) {
+      if ($stmt = $mysqli->prepare("SELECT firstName, lastName, appDate FROM appointments JOIN patients ON patients.patientId = appointments.patientId JOIN users ON patients.userId = users.id WHERE appointments.doctorId = ? AND appointments.appDate BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)")) {
+        $stmt->bind_param("iss", $doctorId, $currentDate, $_POST['untilDate']);
+        $stmt->execute();
+        $stmt->bind_result($patFirstName, $patLastName, $appDate);
+        if ($stmt->fetch()) {
+          printf (<<<EOT
+          <tr>
+            <td>%s %s</td>
+            <td>%s</td>
+          </tr>
+          EOT, $patFirstName, $patLastName, $appDate);
+        }
+        $stmt->close();
+        echo "</tbody>";
+        echo "</table>";
+      }
+    }
   }
 }
+$mysqli->close();
 ?>
