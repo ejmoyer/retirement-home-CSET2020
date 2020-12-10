@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS appointments;
-DROP TABLE IF EXISTS meds;
 DROP TABLE IF EXISTS rosters;
 
 CREATE TABLE roles (
@@ -65,24 +64,15 @@ CREATE TABLE appointments (
   doctorId INT,
   patientId INT,
   appDate DATE,
+  appComment VARCHAR(100),
+  morningMed VARCHAR(30),
+  afternoonMed VARCHAR(30),
+  nightMed VARCHAR(30),
   PRIMARY KEY (appointmentId),
   FOREIGN KEY (doctorId)
     REFERENCES employees(employeeId)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  FOREIGN KEY (patientId)
-    REFERENCES patients(patientId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE meds (
-  medId INT AUTO_INCREMENT,
-  patientId INT,
-  morningMed VARCHAR(30),
-  afternoonMed VARCHAR(30),
-  nightMed VARCHAR(30),
-  PRIMARY KEY (medId),
   FOREIGN KEY (patientId)
     REFERENCES patients(patientId)
     ON DELETE CASCADE
