@@ -65,7 +65,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees where userId = ?"
         <td>%s</td>
         <td>
         <form action="doc-patient-info.php" method="post">
-        <input type="text" value="%s" hidden>
+        <input type="text" name="patientId" value="%s" hidden>
         <input type="submit" value="More Info">
         </form>
         </td>
