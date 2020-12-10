@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 if ($_SESSION['access'] != 1) {
   header('Location: ../home.html');
@@ -16,7 +24,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -28,15 +36,18 @@ EOT;
 
 if (!isset($_POST['patientId'])) {
   echo <<<EOT
+  <div class='inputs'>
   <form action="payment.php" method="post">
   <label for="patientId">Patient ID</label>
   <input type="text" name="patientId">
 
   <input type="submit">
   </form>
+  </div>
   EOT;
 } else {
   echo <<<EOT
+  <div class='payment'>
   <form action="payment-update.php" method="post">
   <label for="patientId">Patient ID</label>
   <input type="text" name="patientId" value="$_POST[patientId]">
@@ -59,6 +70,7 @@ if (!isset($_POST['patientId'])) {
   <input type="text" name="patientId" value=$_POST[patientId] hidden>
   <input type="submit" value="Update">
   </form>
+  </div>
   EOT;
 
   if (isset($_POST['update']) && (isset($_POST['patientId']))) {

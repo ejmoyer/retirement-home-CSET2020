@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 // If they aren't an admin or supervisor, stop the script and send them to the home page.
 if ($_SESSION['access'] > 2) {
@@ -17,7 +25,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -25,7 +33,7 @@ EOT;
 echo <<<EOT
 <h1>Employees</h1>
 
-
+<div class="inputs">
 <form action="employee-list.php" method="post">
 <label for="empId">Employee ID:</label>
 <input type="text" name="empId">
@@ -39,6 +47,7 @@ if ($_SESSION['access'] == 1) {
 
   <input type="submit">
   <input type="reset" value="Cancel">
+  </div>
   </form>
   EOT;
 } else {
@@ -55,7 +64,7 @@ if ($_SESSION['access'] == 1) {
 // table + headings
 echo <<<EOT
 
-<table>
+<table id='tableStyle'>
 <thead>
   <tr>
     <th scope="col">ID</th>

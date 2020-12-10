@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 // if the person on this page is not a supervisor or admin, send them to the home page.
 if ($_SESSION['access'] > 2) {
@@ -17,12 +25,13 @@ $date = date("Y-m-d");
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
 // start of the page
 echo(<<<EOT
+<h1>Create Roster</h1>
 <form action="create_roster.php" method="post">
 <label for="roster-date">Date:</label>
 <input type="date" name="roster-date" value="$date">

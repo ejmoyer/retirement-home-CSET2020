@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 session_start();
 if ($_SESSION['access'] > 2) {
   header('Location: ../home.html');
@@ -16,7 +24,7 @@ if (mysqli_connect_errno()) {
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
@@ -44,7 +52,7 @@ if (isset($_POST['checkboxDate'])) {
     echo <<<EOT
     <h2>Missed Patient Activity</h2>
 
-    <table>
+    <table id='tableStyle'>
       <thead>
         <tr>
           <th scope="col">Patient's Name</th>

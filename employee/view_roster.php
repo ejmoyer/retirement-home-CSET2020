@@ -1,4 +1,12 @@
 <?php
+echo <<<EOT
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../static/styles.css" type="text/css" />
+  <title>Register</title>
+  <script defer src="registerPatientFamilyInfo.js"></script>
+</head>
+EOT;
 $mysqli = new mysqli('localhost', 'root', '', 'retirement');
 // if they are not a logged in user, send them to home
 session_start();
@@ -16,11 +24,12 @@ $date = date("Y-m-d");
 // logout button
 echo <<<EOT
 <form action="../authentication/logout.php" method="get">
-<input type=submit value=Logout>
+<input class='logout' type=submit value=Logout>
 </form>
 EOT;
 
 echo <<<EOT
+<h1>Veiw Roster</h1>
 <form action="view_roster.php" method="post">
 <input type="date" name="rosterDate" value="$date">
 
@@ -30,7 +39,7 @@ EOT;
 // if the user submitted a roster date to check, create the roster table
 if (isset($_POST['rosterDate'])) {
   echo <<<EOT
-    <table>
+    <table id='tableStyle'>
     <thead>
       <tr>
         <th scope="col">Supervisor</th>
