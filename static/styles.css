@@ -28,18 +28,37 @@ div.inputs {
    font-size: 20px;
 }
 
-div.payment {
+div.patient, div.payment, div.roster, div.inputs, div.apps, div.admin {
   display : block;text-align : center;
   border: solid;
   padding: 5px;
   text-decoration: none;
   margin: 1rem auto;
   background-color: #a3a3c9;
-  width: 20rem;
+  width: 30rem;
   color: black;
   font-size: 20pt;
 }
 
+div.patient{
+  width: 30rem;
+}
+
+div.roster {
+  width: 60%;
+}
+
+div.payment {
+  width: 20rem;
+}
+
+div.inputs {
+  width: 45rem;
+}
+
+div.admin {
+  width: 20rem;
+}
 
 /* Hover Effect */
 input:hover, a:hover, a.register:hover, a.home:hover, a.adHome:hover {

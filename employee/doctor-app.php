@@ -32,11 +32,13 @@ EOT;
 
 echo <<<EOT
 <h1>Doctor Applications</h1>
+<div class='apps'>
 <form action="doctor-app.php" method="post">
 <label for="patientId">Patient ID:</label>
 <input type="text" name="patientId">
 
 <input type="submit">
+
 </form>
 EOT;
 
@@ -81,6 +83,7 @@ if (isset($_POST['patientId'])) {
 
           <input type="submit">
           </form>
+          </div>
           EOT, $doctorId, $firstName, $lastName);
         }
         $stmt->close();

@@ -30,12 +30,13 @@ EOT;
 
 echo <<<EOT
 <h1>Admin Report</h1>
-
+<div class='admin'>
 <form action="admin-report.php" method="post">
 <input type="date" name="checkboxDate">
 
 <input type="submit">
 </form>
+</div>
 EOT;
 if (isset($_POST['checkboxDate'])) {
   $patientsArray = [];

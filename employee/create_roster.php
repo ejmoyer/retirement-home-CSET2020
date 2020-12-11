@@ -33,6 +33,7 @@ EOT;
 echo(<<<EOT
 <h1>Create Roster</h1>
 <form action="create_roster.php" method="post">
+<div class='roster'>
 <label for="roster-date">Date:</label>
 <input type="date" name="roster-date" value="$date">
 
@@ -121,6 +122,7 @@ echo(<<<EOT
 
 <label for="caregiverFour">Caregiver 4:</label>
 <select name="caregiverFour">
+</div>
 EOT);
 $stmt = $mysqli->prepare("SELECT employeeId, firstName, lastName FROM users INNER JOIN employees ON users.id = employees.userId WHERE roleId = 4;");
 $stmt->execute();

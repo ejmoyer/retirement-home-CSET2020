@@ -37,7 +37,7 @@ if ($stmt = $mysqli->prepare("SELECT patientId, firstName, lastName FROM patient
   while ($stmt->fetch()) {
   printf (<<<EOT
   <h1>Patient's Home</h1>
-  <div class='inputs'>
+  <div class='patientHome'>
   <label for="patientId">Patient ID</label>
   <input type="text" name="patientId" value="%s" disabled>
 

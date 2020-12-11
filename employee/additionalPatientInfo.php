@@ -34,7 +34,7 @@ $stmt->bind_result($firstName, $lastName);
     while ($stmt->fetch()) {
       printf( <<<EOT
         <h1>Additional Patient Info</h1>
-        <div class='inputs'>
+        <div class='patient'>
         <p>Name: %s %s</p>
         <form action="additionalPatientInfo.php" method="post">
         <label for="patientId">ID:</label>
