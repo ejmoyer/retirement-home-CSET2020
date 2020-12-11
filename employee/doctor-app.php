@@ -31,7 +31,7 @@ echo <<<EOT
 EOT;
 
 echo <<<EOT
-<h1>Doctor Applications</h1>
+<h1>Doctor Appointments</h1>
 <form action="doctor-app.php" method="post">
 <label for="patientId">Patient ID:</label>
 <input type="text" name="patientId">

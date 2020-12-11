@@ -48,6 +48,19 @@ $stmt->execute();
 $stmt->bind_result($role, $accessLevel);
 echo <<<EOT
 <h1>Roles</h1>
+
+<div class='inputs'>
+<form action="rolePage.php" method="post">
+<label for="newRole">New Role</label>
+<input type="text" name="newRole">
+
+<label for="access">Access Level</label>
+<input type="text" name="access">
+
+<input type="submit">
+</form>
+</div>
+
 <table id='tableStyle'>
   <thead>
     <tr>
@@ -73,21 +86,5 @@ EOT;
 // close the statement
 $stmt->close();
 /* End of Select All Roles */
-
-// create two textboxes that you can type into (new role and access level)
-// and a submit button */
-echo <<<EOT
-<div class='inputs'>
-<form action="rolePage.php" method="post">
-<label for="newRole">New Role</label>
-<input type="text" name="newRole">
-
-<label for="access">Access Level</label>
-<input type="text" name="access">
-
-<input type="submit">
-</form>
-</div>
-EOT;
 $mysqli->close();
 ?>
