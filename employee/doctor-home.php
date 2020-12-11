@@ -42,7 +42,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees where userId = ?"
   echo <<<EOT
   <h1>Doctor's Home</h1>
 
-  <table>
+  <table id='tableStyle'>
     <thead>
       <tr>
         <th scope="col">Name</th>
@@ -83,7 +83,7 @@ if ($stmt = $mysqli->prepare("SELECT employeeId FROM employees where userId = ?"
     $stmt->close();
     echo <<<EOT
     </tbody>
-    </table>
+    </table id='tableStyle'>
 
     <h1>Appointments</h1>
 

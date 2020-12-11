@@ -58,4 +58,5 @@ isset($_POST['date_of_birth'])) {
   }
 }
 $mysqli->close();
+header("Location: ../home.html");
 ?>
