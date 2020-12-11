@@ -218,6 +218,13 @@ if ((isset($_POST['roster-date'])) &&
               $stmt->execute();
             }
             $stmt->close();
+            if ($_SESSION['access'] == 1) {
+              header("Location: admin-home.php");
+              exit;
+            } elseif ($_SESSION['access'] == 2) {
+              header("Location: supervisor-home.php");
+              exit;
+            }
           }
         }
         }
