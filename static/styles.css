@@ -10,6 +10,18 @@ body {
   background-color: #3fd4c3;
 }
 
+/* Welcome Page Styling */
+.welcome-page {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.info-box {
+  text-align: center;
+}
+
 /* Logout Button Styles */
 input.logout {
   position: relative;
@@ -81,7 +93,6 @@ h1 {
   font-weight: 200;
   margin: 2rem auto;
   text-align: center;
-  background-color: #ffb700;
 }
 
 /* Input Spacing*/
@@ -108,7 +119,8 @@ a.adHome {
 
 /* a Styles on Home, Login Page */
 a.register, a.home {
-  display : block;text-align : center;
+  display : block;
+  text-align : center;
   border: solid;
   padding: 5px;
   text-decoration: none;
